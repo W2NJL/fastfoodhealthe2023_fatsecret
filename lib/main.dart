@@ -1,3 +1,4 @@
+import 'package:ffhe_fat_secret/screens/config_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 import './services/api_service.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     _controller.addListener(_onSearchChanged);
   }
 
@@ -58,7 +60,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text('Fast Food Health-E'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ConfigScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -78,7 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: _restaurant.isNotEmpty ? ApiService.getFoodItemsByRestaurant(_restaurant) : null,
+              future: _restaurant.isNotEmpty ? ApiService.getFoodItemsByRestaurant(_restaurant, calorieLimit: 2000)
+                  : null,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -135,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Text('Serving URL: ${serving.servingUrl}'),
                                           Text('Sodium: ${serving.sodium}'),
                                           Text('Sugar: ${serving.sugar}'),
-                                       
+
                                           // Add any additional attributes here
                                         ],
                                       ),

@@ -8,7 +8,7 @@ class ApiService {
   static const String _baseUrl = 'https://platform.fatsecret.com/rest/server.api';
   static const String _tokenUrl = 'https://oauth.fatsecret.com/connect/token';
 
-  static Future<List<FoodItem>> getFoodItemsByRestaurant(String restaurant) async {
+  static Future<List<FoodItem>> getFoodItemsByRestaurant(String restaurant, {int? calorieLimit}) async {
     final token = await _getAccessToken();
 
     final uri = Uri.parse(_baseUrl);
@@ -43,8 +43,17 @@ class ApiService {
             foodItem.serving = servingDetails; // Set the serving property
             foodItems.add(foodItem);
           }
+          if (calorieLimit != null) {
+            foodItems = foodItems.where((item) => item.calories <= calorieLimit).toList();
+          }
+
           // Sort by calories (desc)
           foodItems.sort((a, b) => b.calories.compareTo(a.calories));
+          //sodium
+          //cholesterol
+          //carbs
+          //Salad next to logo
+          //About screen
         }
       } catch (e) {
         print('Error during deserialization: $e');
