@@ -18,52 +18,54 @@ class _ConfigScreenState extends State<ConfigScreen> {
       appBar: AppBar(title: Text('Diet Configuration')),
       body: Padding( // Add overall padding
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align items to start
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // Align items to start
+            children: [
 
-            // Meal selection header
-            Text(
-              "Number of Meals",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10), // A little space between header and dropdown
-            DropdownButton<int>(
-              value: selectedNumOfMeals,
-              onChanged: (int? newValue) {
-                if (newValue! <= selectedDiet!.numOfMeals) {
-                  setState(() { selectedNumOfMeals = newValue; });
-                } else {
-                  print('Nah');
-                }
-              },
-              items: [1, 2, 3].map<DropdownMenuItem<int>>((int value) {
-                return DropdownMenuItem<int>(
-                  value: value,
-                  child: Text('$value meals/day'),
-                );
-              }).toList(),
-            ),
-            Divider(thickness: 2), // Separate sections with a divider
-            SizedBox(height: 10),
+              // Meal selection header
+              Text(
+                "Number of Meals",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10), // A little space between header and dropdown
+              DropdownButton<int>(
+                value: selectedNumOfMeals,
+                onChanged: (int? newValue) {
+                  if (newValue! <= selectedDiet!.numOfMeals) {
+                    setState(() { selectedNumOfMeals = newValue; });
+                  } else {
+                    print('Nah');
+                  }
+                },
+                items: [1, 2, 3].map<DropdownMenuItem<int>>((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text('$value meals/day'),
+                  );
+                }).toList(),
+              ),
+              Divider(thickness: 2), // Separate sections with a divider
+              SizedBox(height: 10),
 
-            // Calorie plan header
-            Text(
-              "Calorie Plan",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
+              // Calorie plan header
+              Text(
+                "Choose your Diet",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
 
-            ..._buildDietOptions(), // Extract diet options to a new function for cleanliness
+              ..._buildDietOptions(), // Extract diet options to a new function for cleanliness
 
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Save'),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Save'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -75,7 +77,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
       ListTile(
         title: const Text('2000 Calorie Diet'),
         leading: Radio(
-          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3),
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 9999, fat: 9999, carbs: 9999),
           groupValue: selectedDiet,
           onChanged: (DietConfig? value) {
             setState(() { selectedDiet = value; });
@@ -89,7 +91,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
       ListTile(
         title: const Text('1500 Calorie Diet'),
         leading: Radio(
-          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3),
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 9999, fat: 9999, carbs: 9999),
           groupValue: selectedDiet,
           onChanged: (DietConfig? value) {
             setState(() { selectedDiet = value; });
@@ -103,7 +105,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
       ListTile(
         title: const Text('1200 Calorie Diet'),
         leading: Radio(
-          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3),
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 9999, fat: 9999, carbs: 9999),
           groupValue: selectedDiet,
           onChanged: (DietConfig? value) {
             setState(() { selectedDiet = value; });
@@ -112,6 +114,126 @@ class _ConfigScreenState extends State<ConfigScreen> {
         trailing: IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () => _showDietPlanInfo("1200 Calorie Diet"),
+        ),
+      ),
+      ListTile(
+        title: const Text('Lower Sodium Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 2300, carbs: 9999, fat: 9999),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("Lower Sodium Diet"),
+        ),
+      ),
+      // Lowest Sodium Diet Option
+      ListTile(
+        title: const Text('Lowest Sodium Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 2000, mealCalories: 500, numOfMeals: 3, sodium: 1500, carbs: 0, fat: 0),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("Lowest Sodium Diet"),
+        ),
+      ),
+
+      // Very Low Carbohydrate Diet Options
+      ListTile(
+        title: const Text('2000 Calorie Very Low Carbohydrate Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 50, fat: 0),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("2000 Calorie Very Low Carbohydrate Diet"),
+        ),
+      ),
+      // Very Low Carbohydrate Diet Options
+      ListTile(
+      title: const Text('1500 Calorie Very Low Carbohydrate Diet'),
+      leading: Radio(
+      value: DietConfig(dailyCalories: 1500, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 50, fat: 0),
+      groupValue: selectedDiet,
+      onChanged: (DietConfig? value) {
+      setState(() { selectedDiet = value; });
+      },
+      ),
+      trailing: IconButton(
+      icon: Icon(Icons.info_outline),
+      onPressed: () => _showDietPlanInfo("1500 Calorie Very Low Carbohydrate Diet"),
+    ),
+    ),
+      ListTile(
+        title: const Text('1200 Calorie Very Low Carbohydrate Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 1200, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 50, fat: 0),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("1200 Calorie Very Low Carbohydrate Diet"),
+        ),
+      ),
+
+      // ... Similarly add other Very Low Carbohydrate and Low Carbohydrate Diet Options
+
+      // Low Fat Diet Options
+      ListTile(
+        title: const Text('2000 Calorie Low Fat Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 2000, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 0, fat: 67),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("1500 Calorie Low Fat Diet"),
+        ),
+      ),
+      ListTile(
+        title: const Text('1500 Calorie Low Fat Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 1500, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 0, fat: 67),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("1500 Calorie Low Fat Diet"),
+        ),
+      ),
+      ListTile(
+        title: const Text('1200 Calorie Low Fat Diet'),
+        leading: Radio(
+          value: DietConfig(dailyCalories: 1200, mealCalories: 660, numOfMeals: 3, sodium: 0, carbs: 0, fat: 67),
+          groupValue: selectedDiet,
+          onChanged: (DietConfig? value) {
+            setState(() { selectedDiet = value; });
+          },
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => _showDietPlanInfo("1200 Calorie Low Fat Diet"),
         ),
       ),
       // Add other diet options similarly

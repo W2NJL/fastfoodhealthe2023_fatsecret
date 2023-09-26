@@ -22,7 +22,8 @@ extension DietConfigPreferences on DietConfig {
     final dailyCalories = prefs.getInt(_dailyCaloriesKey);
     final mealCalories = prefs.getInt(_mealCaloriesKey);
     final numMeals = prefs.getInt(_numMealsKey);
-    return DietConfig(dailyCalories: dailyCalories!, mealCalories: mealCalories!, numOfMeals: numMeals!);
+    return DietConfig(dailyCalories: dailyCalories!, mealCalories: mealCalories!, numOfMeals: numMeals!, sodium: 0,
+    carbs: 0, fat: 0);
   }
 }
 
@@ -31,8 +32,11 @@ class DietConfig {
   final int dailyCalories;
   final int mealCalories;
   final int numOfMeals; // Add this new parameter
+  final int sodium; // added
+  final int carbs;  // added
+  final int fat;    // added
 
-  DietConfig({required this.dailyCalories, required this.mealCalories, required this.numOfMeals});
+  DietConfig({required this.dailyCalories, required this.mealCalories, required this.numOfMeals, required this.sodium, required this.carbs, required this.fat, });
 
 // You can add methods to save/load this configuration from local storage or server.
 }

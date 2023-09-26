@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(8.0),
             child: Image.network('https://static.wixstatic.com/media/7d5dd4_7314dd4e69d3447e8fcf6319495fdb80~mv2.png/v1/fill/w_150,h_150,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/FastFoodHealthELogo.png'),
           ),
+          Text('Our database, powered by Nutritionix, features over 172,000 items from restaurants.  We help you find the nutritional values of meal options that are often difficult or impossible to locate!'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -181,6 +182,21 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+
+    Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(
+    "This app is recommended for Adults 19-59 years of age\n"
+    "(Reference: Dietary Guidelines for Americans 2020-2025; "
+    "https://www.dietaryguidelines.gov/sites/default/files/2021-03/Dietary_Guidelines_for_Americans-2020-2025.pdf)\n\n"
+
+    "Mayo Clinic.org reference:\n"
+    "Generally, to lose 1 to 2 pounds a week (safe rate of weight loss), you need to shave 500 to 1,000 calories from your daily intake to achieve a calorie deficit. "
+    "This can be achieved by eating fewer calories or using up more through regular physical activity.\n\n"
+
+    "A caveat – every person’s caloric needs and deficits are different and depend on many factors, like exercise, genes, hormones and your metabolism.",
+    style: TextStyle(fontSize: 11),
+    ))
         ],
       ),
     );
