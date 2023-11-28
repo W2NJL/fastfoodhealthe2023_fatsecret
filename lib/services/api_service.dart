@@ -112,4 +112,58 @@ class ApiService {
       throw Exception('Failed to obtain access token: ${response.statusCode}');
     }
   }
+
+  static Future<List<String>> getRestaurants(String startsWith) async {
+    print('Hello?');
+    final token = await _getAccessToken();
+    final uri = Uri.parse(_baseUrl);
+    final response = await http.post(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      body: {
+        'method': 'food_brands.get.v2',
+        'starts_with': startsWith,
+        'brand_type': 'restaurant',
+        'format': 'json',
+        // Add region and language parameters if needed
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      // Extract and return a list of restaurant names from the response
+      // Replace the next line with your actual JSON parsing logic
+      print(response.body);
+      List<String> restaurants = parseRestaurants(data);
+      return restaurants;
+    } else {
+      // This else block ensures that an exception is thrown if the status code is not 200
+      throw Exception('Failed to load restaurants. Status code: ${response.statusCode}');
+    }
+
+    // This return statement is a fallback, it should never actually be reached
+    return [];
+  }
+
+
+
+  static List<String> parseRestaurants(dynamic data) {
+    List<String> restaurantNames = [];
+
+    // Check if 'food_brands' and 'food_brand' keys exist in the JSON data
+    if (data['food_brands'] != null && data['food_brands']['food_brand'] != null) {
+      // Extract the array of restaurant names
+      var restaurants = data['food_brands']['food_brand'] as List<dynamic>;
+
+      for (var restaurantName in restaurants) {
+        // Add the restaurant name to the list, ensuring it's a string
+        restaurantNames.add(restaurantName.toString());
+      }
+    }
+
+    return restaurantNames;
+  }
+
 }
