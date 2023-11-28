@@ -133,27 +133,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text('Serving Details'),
+                                    title: Text('Serving Details', style: TextStyle(fontWeight: FontWeight.bold)),
                                     content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: [
-                                          Text('Calories: ${serving.calories}'),
-                                          Text('Carbohydrates: ${serving.carbohydrate}'),
-                                          Text('Cholesterol: ${serving.cholesterol}'),
-                                          Text('Fat: ${serving.fat}'),
-                                          Text('Fiber: ${serving.fiber}'),
-                                          Text('Measurement Description: ${serving.measurementDescription}'),
-                                          Text('Number of Units: ${serving.numberOfUnits}'),
-                                          Text('Protein: ${serving.protein}'),
-                                          Text('Saturated Fat: ${serving.saturatedFat}'),
-                                          Text('Serving Description: ${serving.servingDescription}'),
-                                          Text('Serving ID: ${serving.servingId}'),
-                                          Text('Serving URL: ${serving.servingUrl}'),
-                                          Text('Sodium: ${serving.sodium}'),
-                                          Text('Sugar: ${serving.sugar}'),
-
-                                          // Add any additional attributes here
-                                        ],
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black),
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Nutrition Facts', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                            SizedBox(height: 6),
+                                            Text('Serving Size: ${serving.measurementDescription}', style: TextStyle(fontWeight: FontWeight.bold)),
+                                            Divider(thickness: 2),
+                                            _nutritionLabelLine('Amount Per Serving'),
+                                            SizedBox(height: 4),
+                                            _nutritionLabelLine('Calories', serving.calories, true, false),
+                                            Divider(thickness: 1),
+                                            _nutritionLabelLine('Total Fat ${serving.fat}g', '', true),
+                                            _nutritionLabelLine('Saturated Fat ${serving.saturatedFat}g'),
+                                            _nutritionLabelLine('Cholesterol ${serving.cholesterol}mg'),
+                                            _nutritionLabelLine('Sodium ${serving.sodium}mg'),
+                                            _nutritionLabelLine('Total Carbohydrate ${serving.carbohydrate}g', '', true),
+                                            _nutritionLabelLine('Dietary Fiber ${serving.fiber}g'),
+                                            _nutritionLabelLine('Total Sugars ${serving.sugar}g'),
+                                            _nutritionLabelLine('Protein ${serving.protein}g', '', true),
+                                            Divider(thickness: 2),
+                                            Text('Serving ID: ${serving.servingId}'),
+                                            Text('Serving URL: ${serving.servingUrl}'),
+                                            // Add any additional attributes here
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     actions: [
@@ -165,6 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ],
                                   );
+
                                 },
                               );
                             },
@@ -201,4 +214,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+Widget _nutritionLabelLine(String leftText, [String rightText = '', bool isBold = false, bool isIndented = true]) {
+  return Padding(
+    padding: EdgeInsets.only(left: isIndented ? 10 : 0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          leftText,
+          style: TextStyle(fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
+        ),
+        if (rightText.isNotEmpty)
+          Text(
+            rightText,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+      ],
+    ),
+  );
 }
